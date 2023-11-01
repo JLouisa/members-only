@@ -4,5 +4,11 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
+}
+
+.error {
+  color: crimson;
+  font-weight: 700;
+  font-size: 1.1rem;
 }

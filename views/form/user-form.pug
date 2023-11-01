@@ -1,0 +1,40 @@
+extends ../layout
+
+block content
+    h1= title
+    p This is the Sign-Up page
+    div.error 
+        ul 
+            if errors
+                each error in errors
+                    li=error.msg
+    div
+        form(action="", method="POST")
+            div 
+                // First Name Input
+                label(for="firstName") First name:
+                input(type="text", id="firstName", name="firstName")
+            div 
+                // Last Name Input
+                label(for="lastName") Last name:
+                input(type="text", id="lastName", name="lastName")
+            div 
+                // Username Input
+                label(for="userName") Username:
+                input(type="text", id="userName", name="userName")
+            div
+                // Email Input
+                label(for="email") Email Address: 
+                input(type="email", id="email", name="email")
+            div
+                // Password Input
+                label(for="password") Password:
+                input(type="password", id="password", name="password")
+                // Password Confirmation Input
+                label(for="passwordConfirm") Confirm Password: 
+                input(type="password", id="passwordConfirm", name="passwordConfirm")
+                p Password must include at least one letter, one digit, one special character, and be between 8 and 16 characters
+            div
+                // Submit Button
+                button(type="submit") Sign Up
+                a(href="/") Cancel

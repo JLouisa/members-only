@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/create", userController.userCreateGet);
 
 /* POST users form. */
-router.post("/create/", userController.userCreatePOST);
+router.post("/create", userController.userCreatePOST);
 
 /* GET users update form. */
 router.get("/update/:id", userController.userUpdateGet);
