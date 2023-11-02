@@ -42,12 +42,12 @@ exports.userCreatePOST = [
     // })
     // .withMessage("Last name contains excessive spaces")
     .escape(),
-  body("userName")
+  body("username")
     .notEmpty()
     .withMessage("Username must not be empty")
     .trim()
-    .isLength({ min: 5, max: 50 })
-    .withMessage("Username must be between 5 and 50 characters")
+    // .isLength({ min: 5, max: 50 })
+    // .withMessage("Username must be between 5 and 50 characters")
     .matches(/^[a-zA-Z0-9_]*$/)
     .withMessage("Username can only contain letters, numbers, and underscores")
     .custom(async (value) => {
@@ -88,10 +88,10 @@ exports.userCreatePOST = [
     .notEmpty()
     .withMessage("Password must not be empty")
     .trim()
-    .matches(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,20}$/)
-    .withMessage(
-      "Password must include at least one letter, one digit, one special character, and be between 8 and 20 characters"
-    )
+    // .matches(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,20}$/)
+    // .withMessage(
+    //   "Password must include at least one letter, one digit, one special character, and be between 8 and 20 characters"
+    // )
     .escape(),
 
   // Process request after validation and sanitization.
@@ -103,10 +103,11 @@ exports.userCreatePOST = [
     const newUser = new UserCollection({
       firstName: req.body.firstName.toLowerCase() || "",
       lastName: req.body.lastName.toLowerCase() || "",
-      userName: req.body.userName.toLowerCase() || "",
+      username: req.body.username.toLowerCase() || "",
       email: req.body.email.toLowerCase() || "",
       password: req.body.password || "",
       joinDate: new Date(),
+      isMember: false,
       isAdmin: false,
       isSuspended: false,
     });
@@ -125,7 +126,8 @@ exports.userCreatePOST = [
         try {
           newUser.password = hashedPassword;
           await newUser.save();
-          res.render("dashboard", {
+          res.redirect("/dashboard", {
+            title: "Welcome to the dashboard",
             user: newUser,
           });
         } catch (err) {

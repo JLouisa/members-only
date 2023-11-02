@@ -39,6 +39,13 @@ main(mongoDB).catch((err) => console.log(err));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
+//!Middlewares
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+
 //! Passport Sessions
 app.use(session({ secret: process.env.SECRECT_KEY, resave: false, saveUninitialized: true }));
 
@@ -77,13 +84,7 @@ passport.deserializeUser(async (id, done) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-//!Middlewares
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-
+//! Routes
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/feed", feedRouter);

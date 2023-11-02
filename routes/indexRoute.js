@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const loginController = require("../controller/loginController");
+const passport = require("passport");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -9,9 +10,16 @@ router.get("/", function (req, res, next) {
 
 /* GET login */
 router.get("/login", loginController.loginGet);
+// /* GET login */
+// router.post("/login", loginController.loginPost);
 
-/* GET login */
-router.post("/login", loginController.loginPost);
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
+  })
+);
 
 router.get("/log-out", (req, res, next) => {
   req.logout((err) => {
@@ -23,6 +31,10 @@ router.get("/log-out", (req, res, next) => {
 });
 
 /* GET login */
-router.get("/dashboard", (req, res) => res.render("dashboard"));
+router.get("/dashboard", (req, res) =>
+  res.render("dashboard", {
+    title: "Dashboard",
+  })
+);
 
 module.exports = router;
