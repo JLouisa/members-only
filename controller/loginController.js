@@ -32,29 +32,31 @@ exports.loginPost = asyncHandler(async function (req, res, next) {
     .escape();
 
   passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
   });
 
-  // Extract the validation errors from a request.
-  const errors = validationResult(req);
+  // // Extract the validation errors from a request.
+  // const errors = validationResult(req);
 
-  const user = {
-    username: req.body.username,
-    password: req.body.username,
-  };
+  // const user = {
+  //   username: req.body.username,
+  //   password: req.body.username,
+  // };
 
-  if (!errors.isEmpty()) {
-    // There are errors. Render the form again with sanitized values/error messages.
-    res.render("login", {
-      title: "Log in Failed",
-      text: "Please review and correct the following issues before re-submitting the form:",
-      oldUser: newUser,
-      errors: errors.array(),
-    });
-    return;
-  } else
-    res.render("login", {
-      title: "Log in Failed",
-    });
+  // passport.authenticate("local", {
+  //   successRedirect: "/login",
+  //   failureRedirect: "/",
+  // });
+
+  // if (!errors.isEmpty()) {
+  //   // There are errors. Render the form again with sanitized values/error messages.
+  //   res.render("login", {
+  //     title: "Log in Failed",
+  //     text: "Log in Failed",
+  //     oldUser: newUser,
+  //     errors: errors.array(),
+  //   });
+  //   return;
+  // }
 });

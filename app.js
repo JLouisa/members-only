@@ -22,11 +22,12 @@ const mongoInit = process.env.MONGODB_INIT;
 const cluster = process.env.MONGODB_CLUSTER;
 const clusterID = process.env.MONGODB_CLUSTERID;
 const database = process.env.MONGODB_DB;
-const host = process.env.MONGODB_HOST;
-const user = encodeURIComponent(process.env.MONGODB_USER);
-const pass = encodeURIComponent(process.env.MONGODB_PASS);
+const mongoHost = process.env.MONGODB_HOST;
+const mongoUser = encodeURIComponent(process.env.MONGODB_USER);
+const mongoPass = encodeURIComponent(process.env.MONGODB_PASS);
 
-const mongoDB = process.env.MONGODB_URI || `${mongoInit}${user}:${pass}@${cluster}${clusterID}${database}${host}`;
+const mongoDB =
+  process.env.MONGODB_URI || `${mongoInit}${mongoUser}:${mongoPass}@${cluster}${clusterID}${database}${mongoHost}`;
 
 async function main(db) {
   await mongoose.connect(db);
@@ -66,7 +67,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findById(id);
+    const user = await UserCollection.findById(id);
     done(null, user);
   } catch (err) {
     done(err);

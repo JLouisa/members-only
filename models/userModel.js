@@ -8,6 +8,7 @@ const UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   joinDate: { type: Date },
+  isMember: { type: Boolean },
   isAdmin: { type: Boolean },
   isSuspended: { type: Boolean },
 });
