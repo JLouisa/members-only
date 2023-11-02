@@ -1,0 +1,26 @@
+{
+  "reservedUsernames": [
+    "admin",
+    "administrator",
+    "root",
+    "superuser",
+    "moderator",
+    "support",
+    "guest",
+    "anonymous",
+    "webmaster",
+    "system",
+    "owner",
+    "manager",
+    "user",
+    "test",
+    "demo",
+    "testuser",
+    "nobody",
+    "nopassword",
+    "password",
+    "default",
+    "public",
+    "private"
+  ]
+}

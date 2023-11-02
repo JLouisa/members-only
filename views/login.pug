@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    h1= title
+    p 
+        if text
+            | Welcome to the log in page!
+    div.error 
+        ul 
+            if errors
+                each error in errors
+                    li=error.msg
+    div
+        form(action="", method="POST")
+            div 
+                // First Name Input
+                label(for="userName") Username:
+                input(type="text", id="userName", name="userName")
+            div 
+                // Last Name Input
+                label(for="password") Password:
+                input(type="password", id="password", name="password")
+            div
+                // Submit Button
+                button(type="submit") Log in
+                a(href="/user/create") Sign Up

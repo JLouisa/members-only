@@ -25,6 +25,10 @@
     "luxon": "^3.4.3",
     "mongoose": "^7.6.3",
     "morgan": "~1.9.1",
+    "bcryptjs": "^2.4.3",
+    "express-session": "^1.17.3",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
     "pug": "^3.0.2",
     "uuid": "^9.0.1"
   },

@@ -1,8 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const UserCollection = require("../models/userModel");
+const bcrypt = require("bcryptjs");
 const fs = require("fs");
 const reservedUsernames = JSON.parse(fs.readFileSync(__dirname + "/reservedUsernames.json", "utf8")).reservedUsernames;
+// const userCreatePOSTFunc = require("./validationFunc/userCreatePOSTFunc");
 
 exports.userCreateGet = asyncHandler(async function (req, res, next) {
   res.render("form/user-form", { title: "Create User GET" });
@@ -44,13 +46,15 @@ exports.userCreatePOST = [
     .notEmpty()
     .withMessage("Username must not be empty")
     .trim()
-    .isLength({ min: 5, max: 16 })
-    .withMessage("Username must be between 1 and 16 characters")
+    .isLength({ min: 5, max: 50 })
+    .withMessage("Username must be between 5 and 50 characters")
     .matches(/^[a-zA-Z0-9_]*$/)
     .withMessage("Username can only contain letters, numbers, and underscores")
     .custom(async (value) => {
       // Check if the username is in database
       const user = await UserCollection.findOne({ userName: { $regex: new RegExp(`^${value}$`, "i") } });
+      console.log("user");
+      console.log(user);
       if (user || reservedUsernames.includes(value.toLowerCase())) {
         throw new Error();
       }
@@ -61,21 +65,25 @@ exports.userCreatePOST = [
     .notEmpty()
     .withMessage("E-mail must not be empty")
     .trim()
-    .isLength({ min: 3, max: 50 })
-    .withMessage("E-mail must be between 3 and 50 characters")
+    .isLength({ min: 6, max: 50 })
+    .withMessage("E-mail must be between 6 and 50 characters")
     .isEmail()
     .withMessage("E-mail adress is incorrect")
     .custom(async (value) => {
       const user = await UserCollection.findOne({ email: value });
+      console.log("user");
+      console.log(user);
       if (user) {
         throw new Error();
       }
     })
     .withMessage("E-mail already in use")
     .escape(),
-  body("passwordConfirm").custom((value, { req }) => {
-    return value === req.body.password;
-  }),
+  body("passwordConfirm")
+    .custom((value, { req }) => {
+      return value === req.body.password;
+    })
+    .withMessage("Password doesn't match"),
   body("password")
     .notEmpty()
     .withMessage("Password must not be empty")
@@ -84,8 +92,6 @@ exports.userCreatePOST = [
     .withMessage(
       "Password must include at least one letter, one digit, one special character, and be between 8 and 20 characters"
     )
-    .isLength({ min: 8, max: 20 })
-    .withMessage("Password must be between 8 and 20 characters")
     .escape(),
 
   // Process request after validation and sanitization.
@@ -115,11 +121,16 @@ exports.userCreatePOST = [
       });
       return;
     } else {
-      // Create a genre object with escaped and trimmed data.
-      await newUser.save();
-
-      return res.render("dashboard", {
-        user: newUser,
+      bcrypt.hash(req.body.password, +process.env.HASH_NUM, async (err, hashedPassword) => {
+        try {
+          newUser.password = hashedPassword;
+          await newUser.save();
+          res.render("dashboard", {
+            user: newUser,
+          });
+        } catch (err) {
+          return next(err);
+        }
       });
     }
   }),
