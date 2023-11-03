@@ -6,16 +6,18 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 const session = require("express-session");
-const bcrypt = require("bcryptjs");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const UserCollection = require("./models/userModel");
 
 const indexRouter = require("./routes/indexRoute");
 const userRouter = require("./routes/userRoute");
 const feedRouter = require("./routes/feedRoute");
+const dashboardRouter = require("./routes/dashboardRoute");
 
+//! Express init
 const app = express();
+
+//! Passport config
+require("./config/passport")(passport);
 
 //! MongoDB setup
 const mongoInit = process.env.MONGODB_INIT;
@@ -46,41 +48,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-//! Passport Sessions
-app.use(session({ secret: process.env.SECRECT_KEY, resave: false, saveUninitialized: true }));
-
-passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await UserCollection.findOne({ username: username });
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
-      }
-      const match = await bcrypt.compare(password, user.password);
-      if (!match) {
-        // passwords do not match!
-        return done(null, false, { message: "Incorrect password" });
-      }
-      return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
-  })
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await UserCollection.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-});
-
+app.use(session({ secret: process.env.SECRECT_KEY, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -88,6 +56,7 @@ app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/feed", feedRouter);
+app.use("/dashboard", dashboardRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

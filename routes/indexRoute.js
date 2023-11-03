@@ -5,13 +5,11 @@ const passport = require("passport");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  res.redirect("/login");
+  res.render("index");
 });
 
 /* GET login */
 router.get("/login", loginController.loginGet);
-// /* GET login */
-// router.post("/login", loginController.loginPost);
 
 router.post(
   "/login",
@@ -19,6 +17,12 @@ router.post(
     successRedirect: "/dashboard",
     failureRedirect: "/login",
   })
+
+  // app.post('/login/password',
+  // passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
+  // function(req, res) {
+  //   res.redirect('/~' + req.user.username);
+  // });
 );
 
 router.get("/log-out", (req, res, next) => {
@@ -29,12 +33,5 @@ router.get("/log-out", (req, res, next) => {
     res.redirect("/");
   });
 });
-
-/* GET login */
-router.get("/dashboard", (req, res) =>
-  res.render("dashboard", {
-    title: "Dashboard",
-  })
-);
 
 module.exports = router;
