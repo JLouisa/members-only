@@ -28,12 +28,12 @@ exports.dashboardProfilePost = asyncHandler(async function (req, res, next) {
 exports.userMembershipGet = asyncHandler(async function (req, res, next) {
   const user = req.user;
   // Render the profile template and pass the user information
-  res.render("dashboard/membership", { title: "Profile", user: user });
+  res.render("dashboard/membership", { title: "Membership", user: user });
 });
 
 exports.userMembershipPost = asyncHandler(async function (req, res, next) {
   const user = await UserCollection.findOne({ _id: req.user._id });
   user.isMember = true;
   await user.save();
-  res.render("dashboard/membership", { title: "Profile", user: user });
+  res.render("dashboard/membership", { title: "Membership", user: user });
 });
