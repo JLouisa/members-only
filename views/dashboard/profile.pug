@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  h1= title
+  div
+    p Username: #{user.username}
+    p Fist name: #{user.firstName}
+    p Fist last: #{user.lastName}
+    p E-mail: #{user.email}
+    p Membership Status: 
+        if user.isMember
+            | Active
+        else 
+            | Not a member
+    p Joined Date: #{user.joinDate}

@@ -10,7 +10,6 @@ const passport = require("passport");
 
 const indexRouter = require("./routes/indexRoute");
 const userRouter = require("./routes/userRoute");
-const feedRouter = require("./routes/feedRoute");
 const dashboardRouter = require("./routes/dashboardRoute");
 
 //! Express init
@@ -55,7 +54,6 @@ app.use(passport.session());
 //! Routes
 app.use("/", indexRouter);
 app.use("/user", userRouter);
-app.use("/feed", feedRouter);
 app.use("/dashboard", dashboardRouter);
 
 // catch 404 and forward to error handler

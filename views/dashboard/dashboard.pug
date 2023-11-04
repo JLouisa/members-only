@@ -1,8 +1,8 @@
-extends layout
+extends ../layout
 
 block content
   h1= title
-  p Hi, welcome!
+  p Hi, welcome #{user.firstName}!
   p 
     a(href="/protected-area") Go to Protected area
   p 

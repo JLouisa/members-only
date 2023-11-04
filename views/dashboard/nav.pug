@@ -1,0 +1,13 @@
+a(href='/' class="logo") 
+    img(src="/images/logo2-white.png", alt="logo icon")
+div(class='navTitle') Members Only
+ul(class="menuLinks")
+    if !user.isMember
+        li
+            a(href='/membership') Membership
+    li 
+        a(href='/dashboard') Dashboard
+    li
+        a(href='/profile') Profile
+    li
+        a(href="/log-out") Log-out

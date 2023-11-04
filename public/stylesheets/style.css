@@ -48,7 +48,7 @@ nav {
   grid-row: 1/2;
   grid-column: 3/4;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-self: center;
 }
 

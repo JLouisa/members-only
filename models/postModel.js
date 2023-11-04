@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema({
   title: { type: String, required: true },
   text: { type: String, required: true },
-  createdDate: { type: Date, required: true },
+  createdDate: { type: Date, default: Date.now },
   createdByUser: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  isVisible: { type: Boolean },
+  isHidden: { type: Boolean, default: false },
 });
 
 // Virtual for post's URL

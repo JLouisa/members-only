@@ -7,22 +7,9 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
   nav 
-    a(href='/' class="logo") 
-      img(src="/images/logo2-white.png", alt="logo icon")
-    div(class='navTitle') Members Only
-    ul(class="menuLinks")
-      li 
-        a(href='/') Home
-      li
-        a(href="/login") Log-in 
-      li 
-        a(href="/user/create") Sign-up
-      li
-        a(href='/membership') Membership
+    include include/nav.pug
   main 
     div.theMain
       block content
   footer
-    a(href="https://github.com/JLouisa/" target="_blank") 
-      img(src="/images/github-original.svg" alt="github icon" class="github")
-    p © 2023 Jonathan Louisa
+    include include/footer.pug

@@ -7,10 +7,10 @@ const UserSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  joinDate: { type: Date },
-  isMember: { type: Boolean },
-  isAdmin: { type: Boolean },
-  isSuspended: { type: Boolean },
+  joinDate: { type: Date, default: Date.now },
+  isMember: { type: Boolean, default: false },
+  isAdmin: { type: Boolean, default: false },
+  isSuspended: { type: Boolean, default: false },
 });
 
 // Virtual for user's URL
