@@ -118,22 +118,55 @@ footer {
   height: auto;
 }
 
-.post {
+.greeting {
+  text-align: end;
+}
+
+.greeting2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post,
+.comment {
   border: 1px solid var(--fontColor);
   margin: 1em;
   padding: 1em;
 }
 
-/* .postInfo {
+.postInfo,
+.commentInfo {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-} */
-
-.postDate {
-  text-align: right;
 }
 
-.postTitle {
+.postDate,
+.commentDate {
+  /* text-align: right; */
+  font-size: 1rem;
+}
+.postTitle,
+.commentTitle {
   text-align: center;
+}
+.postText,
+.commentText {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.commentArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.commentArea form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }

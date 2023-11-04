@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 console.log("This script fix the password of the users with bcryptjs in the database.");
 
-const UserCollection = require("./models/userModel");
+const UserCollection = require("../models/userModel");
 const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");

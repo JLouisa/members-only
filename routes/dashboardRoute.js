@@ -15,10 +15,10 @@ router.get("/membership", isAuth, dashboardController.userMembershipGet);
 /* POST users form. */
 router.post("/membership", isAuth, dashboardController.userMembershipPost);
 
-// /* POST users update form. */
-// router.post("/user/:id", isAuth, dashboardController.dashboardProfilePost);
+/* Get post page */
+router.get("/post/:id", isAuth, dashboardController.postIDGet);
 
-// /* POST dashboard form. */
-// router.get("/protected-area", isAuth, dashboardController.protectedAreaGet);
+/* POST post page */
+router.post("/post/:id", isAuth, dashboardController.postIDPost);
 
 module.exports = router;

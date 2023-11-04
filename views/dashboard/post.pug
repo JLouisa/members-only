@@ -1,0 +1,43 @@
+extends ../layout
+
+block content
+    p.greeting2 
+        span 
+            a(href="/dashboard") < go back 
+        span Hi, #{user.firstName}!
+    h1= post.title
+    div.post 
+        div.postInfo
+            span 
+                strong= user.isMember ? post.createdByUser.username : "anonymous"         
+            span.postDate 
+                em= user.isMember ? post.createdDate_formatted : ""
+        div 
+            p.postText= post.text
+    div
+        div.commentArea
+            h2 Comments
+            form(action="" method="POST")
+                textarea#addComment(name="addComments", cols="50", rows="10" placeholder=oldComment && oldComment.text ? oldComment.text : "Place a comment...")= oldComment && oldComment.text ? oldCategory.text: ""
+                input(type="submit" value="Comment") 
+        if newComment && newComment.text 
+            div.comment 
+                    div.commentInfo
+                        span 
+                            strong= user.isMember ? newComment.createdByUser.username : "anonymous"
+                        span.commentDate 
+                            em= user.isMember ? newComment.createdDate_formatted : ""
+                    div 
+                        p.commentText= newComment.text
+        if comments.length > 0
+            each comment in comments
+                div.comment 
+                    div.commentInfo
+                        span 
+                            strong= user.isMember ? comment.createdByUser.username : "anonymous"
+                        span.commentDate 
+                            em= user.isMember ? comment.createdDate_formatted : ""
+                    div 
+                        p.commentText= comment.text
+        else
+            p There is no comments, be the first!

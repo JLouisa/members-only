@@ -2,19 +2,18 @@ extends ../layout
 
 block content
   div  
-    h1= title
-    p Hi, welcome #{user.firstName}!
+    p.greeting Hi, #{user.firstName}!
   div
-    h2 Posts
+    h2 Recent Post
       each post in posts 
-        a(href=post.url)
+        a(href="dashboard"+post.url)
           div.post 
             div.postInfo
               span 
-                strong= post.createdByUser.username           
+                strong= user.isMember ? post.createdByUser.username : "anonymous"       
               span.postDate 
-                em= post.createdDate
+                em= user.isMember ? post.createdDate_formatted : ""
             div 
-              span.postTitle= post.title
+              p.postTitle= post.title
               p.postText= post.text
 
