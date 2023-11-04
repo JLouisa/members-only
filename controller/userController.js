@@ -106,10 +106,6 @@ exports.userCreatePOST = [
       username: req.body.username.toLowerCase() || "",
       email: req.body.email.toLowerCase() || "",
       password: req.body.password || "",
-      joinDate: new Date(),
-      isMember: false,
-      isAdmin: false,
-      isSuspended: false,
     });
 
     if (!errors.isEmpty()) {

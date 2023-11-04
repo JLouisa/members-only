@@ -2,13 +2,14 @@ const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 const { body, validationResult } = require("express-validator");
 const UserCollection = require("../models/userModel");
-const CommentCollection = require("../models/commentModel");
 const PostCollection = require("../models/postModel");
+const CommentCollection = require("../models/commentModel");
 
 exports.dashboardGet = asyncHandler(async function (req, res, next) {
   const user = req.user;
+  const posts = await PostCollection.find().populate("createdByUser").sort({ createdOnDate: 1 });
   // Render the dashboard template and pass the user information
-  res.render("dashboard/dashboard", { title: "Dashboard", user: user });
+  res.render("dashboard/dashboard", { title: "Dashboard", user: user, posts: posts });
 });
 
 exports.protectedAreaGet = asyncHandler(async function (req, res, next) {

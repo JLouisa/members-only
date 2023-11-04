@@ -10,10 +10,10 @@ router.get("/", isAuth, dashboardController.dashboardGet);
 router.get("/user/:id", isAuth, dashboardController.dashboardProfileGet);
 
 /* GET users form. */
-router.get("/membership", dashboardController.userMembershipGet);
+router.get("/membership", isAuth, dashboardController.userMembershipGet);
 
 /* POST users form. */
-router.post("/membership", dashboardController.userMembershipPost);
+router.post("/membership", isAuth, dashboardController.userMembershipPost);
 
 // /* POST users update form. */
 // router.post("/user/:id", isAuth, dashboardController.dashboardProfilePost);

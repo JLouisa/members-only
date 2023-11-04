@@ -117,3 +117,23 @@ footer {
   width: 3rem;
   height: auto;
 }
+
+.post {
+  border: 1px solid var(--fontColor);
+  margin: 1em;
+  padding: 1em;
+}
+
+/* .postInfo {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+} */
+
+.postDate {
+  text-align: right;
+}
+
+.postTitle {
+  text-align: center;
+}

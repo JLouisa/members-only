@@ -1,9 +1,20 @@
 extends ../layout
 
 block content
-  h1= title
-  p Hi, welcome #{user.firstName}!
-  p 
-    a(href="/protected-area") Go to Protected area
-  p 
-    a(href="/log-out") Log out
+  div  
+    h1= title
+    p Hi, welcome #{user.firstName}!
+  div
+    h2 Posts
+      each post in posts 
+        a(href=post.url)
+          div.post 
+            div.postInfo
+              span 
+                strong= post.createdByUser.username           
+              span.postDate 
+                em= post.createdDate
+            div 
+              span.postTitle= post.title
+              p.postText= post.text
+
