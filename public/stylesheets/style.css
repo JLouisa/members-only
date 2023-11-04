@@ -79,6 +79,18 @@ main {
   font-size: 2rem;
 }
 
+.vip {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  font-size: 2rem;
+}
+
+.vip-icon {
+  width: 3em;
+  height: auto;
+}
+
 .error {
   color: crimson;
   font-weight: 700;

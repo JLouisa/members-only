@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    h1= title
+    p Hi, welcome #{user.firstName}!
+    if user.isMember 
+        div.vip 
+            span You are a VIP Member! 
+            img.vip-icon(src="/images/vip-card.png", alt="vip card icon")
+    else
+        div
+            p You are not a member yet, join the club! 
+            form(action="membership" method="POST")
+                button(type="submit") Join Now

@@ -1,6 +1,7 @@
 const express = require("express");
 const userController = require("../controller/userController");
 const router = express.Router();
+const { isAuth } = require("../config/auth");
 
 /* GET users form. */
 router.get("/create", userController.userCreateGet);
@@ -20,7 +21,7 @@ router.get("/delete/:id", userController.userDeleteGet);
 /* POST users delete request. */
 router.post("/delete/:id", userController.userDeletePost);
 
-/* Get users detail page. */
-router.get("/:id", userController.userDetailGet);
+// /* Get users detail page. */
+// router.get("/:id", userController.userDetailGet);
 
 module.exports = router;

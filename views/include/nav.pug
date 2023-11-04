@@ -5,7 +5,7 @@ ul(class="menuLinks")
     if user && user.firstName
         if !user.isMember
             li
-                a(href='/membership') Membership
+                a(href='/dashboard/membership') Membership
         li 
             a(href='/dashboard') Dashboard
         li
@@ -15,8 +15,6 @@ ul(class="menuLinks")
     else
         li 
             a(href='/') Home
-        li
-            a(href='/membership') Membership
         li 
             a(href="/user/create") Sign-up
         li
