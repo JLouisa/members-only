@@ -9,7 +9,7 @@ block content
         h1= post.title
         if user.isAdmin
             form(action=`/dashboard/post/delete/${post._id}` method="POST")
-                input(type="submit" value= post.isHidden ? "Undo Delete": "Delete Post")
+                input.btn(type="submit" value= post.isHidden ? "Undo Delete": "Delete Post")
     if post.isHidden && user.isAdmin
         p.postDeleted Post Deleted
     div.post 
@@ -53,7 +53,7 @@ block content
                         if user.isAdmin 
                             div 
                                 form(action=`/dashboard/comment/delete/${comment._id}` method="POST")
-                                    input(type="submit" value= comment.isHidden ? "Undo Delete": "Delete comment")
+                                    input.btn(type="submit" value= comment.isHidden ? "Undo Delete": "Delete comment")
                 else if user.isAdmin
                         div.comment 
                             div.commentInfo
@@ -67,6 +67,6 @@ block content
                             if user.isAdmin 
                                 div 
                                     form(action=`/dashboard/comment/delete/${comment._id}` method="POST")
-                                        input(type="submit" value= comment.isHidden ? "Undo Delete": "Delete Post")
+                                        input.btn(type="submit" value= comment.isHidden ? "Undo Delete": "Delete Post")
         else
             p There is no comments, be the first!

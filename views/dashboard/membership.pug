@@ -4,6 +4,11 @@ block content
     h1= user.isAdmin ? "Admin" : "Membership"
     p Hi, welcome #{user.firstName}!
     if !user.isMember 
+        div
+            p You are not a member yet, join the club! 
+            form(action="membership" method="POST")
+                input.btn(type="submit" value="Join Now")
+    else
         div.vip 
             span You are a VIP Member! 
             img.vip-icon(src="/images/vip-card.png", alt="vip card icon")
@@ -12,8 +17,3 @@ block content
                 span.adminDivs= user.isAdmin ? "Do you want to remove your Admin privileges?": "Do you want to become an Admin?"
                 form(action="adminship" method="POST")
                     input.btn(type="submit" value="Yes")
-    else
-        div
-            p You are not a member yet, join the club! 
-            form(action="membership" method="POST")
-                button(type="submit") Join Now

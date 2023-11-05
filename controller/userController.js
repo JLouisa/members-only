@@ -6,6 +6,7 @@ const fs = require("fs");
 const reservedUsernames = JSON.parse(fs.readFileSync(__dirname + "/reservedUsernames.json", "utf8")).reservedUsernames;
 
 exports.userCreateGet = asyncHandler(async function (req, res, next) {
+  console.log("here on GET");
   res.render("form/user-form", { title: "Create User GET" });
 });
 
@@ -19,12 +20,6 @@ exports.userCreatePOST = [
     .trim()
     .isLength({ min: 2, max: 25 })
     .withMessage("First name must be between 3 and 20 characters")
-    // .custom((value) => {
-    //   if (/\s{2,}/.test(value)) {
-    //     throw new Error();
-    //   }
-    // })
-    // .withMessage("First name contains excessive spaces")
     .escape(),
   body("lastName")
     .notEmpty()
@@ -34,19 +29,13 @@ exports.userCreatePOST = [
     .trim()
     .isLength({ min: 2, max: 25 })
     .withMessage("Last name must be between 3 and 20 characters")
-    // .custom((value) => {
-    //   if (/\s{2,}/.test(value)) {
-    //     throw new Error();
-    //   }
-    // })
-    // .withMessage("Last name contains excessive spaces")
     .escape(),
   body("username")
     .notEmpty()
     .withMessage("Username must not be empty")
     .trim()
-    // .isLength({ min: 5, max: 50 })
-    // .withMessage("Username must be between 5 and 50 characters")
+    .isLength({ min: 5, max: 50 })
+    .withMessage("Username must be between 5 and 50 characters")
     .matches(/^[a-zA-Z0-9_]*$/)
     .withMessage("Username can only contain letters, numbers, and underscores")
     .custom(async (value) => {
@@ -83,16 +72,19 @@ exports.userCreatePOST = [
     .notEmpty()
     .withMessage("Password must not be empty")
     .trim()
-    // .matches(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,20}$/)
-    // .withMessage(
-    //   "Password must include at least one letter, one digit, one special character, and be between 8 and 20 characters"
-    // )
+    .matches(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,20}$/)
+    .withMessage(
+      "Password must include at least one letter, one digit, one special character, and be between 8 and 20 characters"
+    )
     .escape(),
 
   // Process request after validation and sanitization.
   asyncHandler(async function (req, res, next) {
+    console.log("here on POST");
+
     // Extract the validation errors from a request.
     const errors = validationResult(req);
+    console.log(req.body);
 
     const newUser = new UserCollection({
       firstName: req.body.firstName.toLowerCase() || "",
@@ -112,14 +104,12 @@ exports.userCreatePOST = [
       });
       return;
     } else {
+      console.log("Validation succesful");
       bcrypt.hash(req.body.password, +process.env.HASH_NUM, async (err, hashedPassword) => {
         try {
           newUser.password = hashedPassword;
           await newUser.save();
-          res.redirect("/dashboard", {
-            title: "Welcome to the dashboard",
-            user: newUser,
-          });
+          res.redirect("/login");
         } catch (err) {
           return next(err);
         }
@@ -128,22 +118,22 @@ exports.userCreatePOST = [
   }),
 ];
 
-exports.userUpdateGet = asyncHandler(async function (req, res, next) {
-  res.render("index", { title: "Create User Update GET" });
-});
+// exports.userUpdateGet = asyncHandler(async function (req, res, next) {
+//   res.render("index", { title: "Create User Update GET" });
+// });
 
-exports.userUpdatePost = asyncHandler(async function (req, res, next) {
-  res.render("index", { title: "Create User Update POST" });
-});
+// exports.userUpdatePost = asyncHandler(async function (req, res, next) {
+//   res.render("index", { title: "Create User Update POST" });
+// });
 
-exports.userDeleteGet = asyncHandler(async function (req, res, next) {
-  res.render("index", { title: "Create User Delete GET" });
-});
+// exports.userDeleteGet = asyncHandler(async function (req, res, next) {
+//   res.render("index", { title: "Create User Delete GET" });
+// });
 
-exports.userDeletePost = asyncHandler(async function (req, res, next) {
-  res.render("index", { title: "Create User Delete GET" });
-});
+// exports.userDeletePost = asyncHandler(async function (req, res, next) {
+//   res.render("index", { title: "Create User Delete GET" });
+// });
 
-exports.userDetailGet = asyncHandler(async function (req, res, next) {
-  res.render("index", { title: "Create User Detail GET" });
-});
+// exports.userDetailGet = asyncHandler(async function (req, res, next) {
+//   res.render("index", { title: "Create User Detail GET" });
+// });
