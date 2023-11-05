@@ -28,6 +28,9 @@ router.post("/post/create", isAuth, dashboardController.postCreatePost);
 /* POST post delete request */
 router.post("/post/delete/:id", isAuth, isAdmin, dashboardController.postToggleHidden);
 
+/* POST post delete request */
+router.post("/comment/delete/:id", isAuth, isAdmin, dashboardController.commentToggleHidden);
+
 /* Get post page */
 router.get("/post/:id", isAuth, dashboardController.postIDGet);
 

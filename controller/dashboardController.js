@@ -120,7 +120,7 @@ exports.postToggleHidden = asyncHandler(async function (req, res, next) {
 
   // Find the post by ID
   const [post, comments] = await Promise.all([
-    await PostCollection.findOne({ _id: postId }).populate("createdByUser").exec(),
+    PostCollection.findOne({ _id: postId }).populate("createdByUser").exec(),
     CommentCollection.find({ createdOnPost: req.params.id }).populate("createdByUser").exec(),
   ]);
 
@@ -195,3 +195,30 @@ exports.postCreatePost = [
     }
   }),
 ];
+
+exports.commentToggleHidden = asyncHandler(async function (req, res, next) {
+  const commentId = req.params.id;
+  // Find the comment by ID
+  const comment = await CommentCollection.findOne({ _id: commentId })
+    .populate("createdByUser")
+    .populate("createdOnPost")
+    .exec();
+  const comments = await CommentCollection.find({ createdOnPost: comment.createdOnPost })
+    .populate("createdByUser")
+    .exec();
+
+  if (!comment) {
+    // Handle the case where the comment is not found
+    return res.status(404).json({ message: "Comment not found" });
+  }
+
+  // Toggle the isHidden field
+  comment.isHidden = !comment.isHidden;
+
+  // Save the updated post
+  await comment.save();
+
+  const post = comment.createdOnPost;
+  // Render the response as needed.
+  res.redirect("/dashboard/post/" + post._id);
+});

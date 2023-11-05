@@ -40,13 +40,32 @@ block content
                         p.commentText= newComment.text
         if comments.length > 0
             each comment in comments
-                div.comment 
-                    div.commentInfo
-                        span 
-                            strong= user.isMember ? comment.createdByUser.username : "anonymous"
-                        span.commentDate 
-                            em= user.isMember ? comment.createdDate_formatted : ""
-                    div 
-                        p.commentText= comment.text
+                if !comment.isHidden
+                    div.comment 
+                        div.commentInfo
+                            span 
+                                strong= user.isMember ? comment.createdByUser.username : "anonymous"
+                            span.commentDate 
+                                em= user.isMember ? comment.createdDate_formatted : ""
+                        div 
+                            p.commentText= comment.text
+                        if user.isAdmin 
+                            div 
+                                form(action=`/dashboard/comment/delete/${comment._id}` method="POST")
+                                    input(type="submit" value= comment.isHidden ? "Undo Delete": "Delete comment")
+                else if user.isAdmin
+                        div.comment 
+                            div.commentInfo
+                                span.postDeleted (Deleted)
+                                span 
+                                    strong= user.isMember ? comment.createdByUser.username : "anonymous"
+                                span.commentDate 
+                                    em= user.isMember ? comment.createdDate_formatted : ""
+                            div 
+                                p.commentText= comment.text
+                            if user.isAdmin 
+                                div 
+                                    form(action=`/dashboard/comment/delete/${comment._id}` method="POST")
+                                        input(type="submit" value= comment.isHidden ? "Undo Delete": "Delete Post")
         else
             p There is no comments, be the first!
