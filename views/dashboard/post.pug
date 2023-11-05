@@ -7,8 +7,9 @@ block content
         span Hi, #{user.firstName}!
     div.postTop
         h1= post.title
-        form(action=`/dashboard/post/delete/${post._id}` method="POST")
-            input(type="submit" value= post.isHidden ? "Undo Delete": "Delete Post")
+        if user.isAdmin
+            form(action=`/dashboard/post/delete/${post._id}` method="POST")
+                input(type="submit" value= post.isHidden ? "Undo Delete": "Delete Post")
     if post.isHidden && user.isAdmin
         p.postDeleted Post Deleted
     div.post 

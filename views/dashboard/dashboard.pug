@@ -7,7 +7,7 @@ block content
     div.createPostDiv 
       h2 Recent Post
       span.btn
-        a(href="/dashboard/post/create") +Create Post
+        a(href="/dashboard/post/create") + Create Post
     each post in posts 
       if !post.isHidden
         a(href="dashboard"+post.url)
