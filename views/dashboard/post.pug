@@ -57,9 +57,9 @@ block content
                 else if user.isAdmin
                         div.comment 
                             div.commentInfo
-                                span.postDeleted (Deleted)
                                 span 
                                     strong= user.isMember ? comment.createdByUser.username : "anonymous"
+                                    span.postDeleted (Deleted)
                                 span.commentDate 
                                     em= user.isMember ? comment.createdDate_formatted : ""
                             div 

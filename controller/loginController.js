@@ -1,8 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const passport = require("passport");
-const UserCollection = require("../models/userModel");
-const bcrypt = require("bcryptjs");
 
 exports.loginGet = asyncHandler(async function (req, res, next) {
   res.render("login", {
@@ -36,28 +34,4 @@ exports.loginPost = asyncHandler(async function (req, res, next) {
     successRedirect: "/dashboard",
     failureRedirect: "/login",
   });
-
-  // // Extract the validation errors from a request.
-  // const errors = validationResult(req);
-
-  // const user = {
-  //   username: req.body.username,
-  //   password: req.body.username,
-  // };
-
-  // passport.authenticate("local", {
-  //   successRedirect: "/login",
-  //   failureRedirect: "/",
-  // });
-
-  // if (!errors.isEmpty()) {
-  //   // There are errors. Render the form again with sanitized values/error messages.
-  //   res.render("login", {
-  //     title: "Log in Failed",
-  //     text: "Log in Failed",
-  //     oldUser: newUser,
-  //     errors: errors.array(),
-  //   });
-  //   return;
-  // }
 });

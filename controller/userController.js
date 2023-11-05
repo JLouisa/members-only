@@ -4,7 +4,6 @@ const UserCollection = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const fs = require("fs");
 const reservedUsernames = JSON.parse(fs.readFileSync(__dirname + "/reservedUsernames.json", "utf8")).reservedUsernames;
-// const userCreatePOSTFunc = require("./validationFunc/userCreatePOSTFunc");
 
 exports.userCreateGet = asyncHandler(async function (req, res, next) {
   res.render("form/user-form", { title: "Create User GET" });
@@ -53,8 +52,6 @@ exports.userCreatePOST = [
     .custom(async (value) => {
       // Check if the username is in database
       const user = await UserCollection.findOne({ userName: { $regex: new RegExp(`^${value}$`, "i") } });
-      console.log("user");
-      console.log(user);
       if (user || reservedUsernames.includes(value.toLowerCase())) {
         throw new Error();
       }
@@ -71,8 +68,6 @@ exports.userCreatePOST = [
     .withMessage("E-mail adress is incorrect")
     .custom(async (value) => {
       const user = await UserCollection.findOne({ email: value });
-      console.log("user");
-      console.log(user);
       if (user) {
         throw new Error();
       }
@@ -96,7 +91,6 @@ exports.userCreatePOST = [
 
   // Process request after validation and sanitization.
   asyncHandler(async function (req, res, next) {
-    console.log(req.body);
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 

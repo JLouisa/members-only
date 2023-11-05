@@ -162,7 +162,6 @@ exports.postCreatePost = [
     .escape(),
 
   asyncHandler(async function (req, res, next) {
-    console.log(req.body);
     const errors = validationResult(req);
 
     const newPost = new PostCollection({
@@ -221,4 +220,11 @@ exports.commentToggleHidden = asyncHandler(async function (req, res, next) {
   const post = comment.createdOnPost;
   // Render the response as needed.
   res.redirect("/dashboard/post/" + post._id);
+});
+
+exports.adminshipPostToggle = asyncHandler(async function (req, res, next) {
+  const user = await UserCollection.findOne({ _id: req.user._id });
+  user.isAdmin = !user.isAdmin;
+  await user.save();
+  res.render("dashboard/membership", { title: "Admin", user: user });
 });

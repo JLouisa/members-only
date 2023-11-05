@@ -16,6 +16,9 @@ router.get("/membership", isAuth, dashboardController.userMembershipGet);
 /* POST users form. */
 router.post("/membership", isAuth, dashboardController.userMembershipPost);
 
+/* POST users form. */
+router.post("/adminship", isAuth, dashboardController.adminshipPostToggle);
+
 /* Get post page */
 router.get("/users", isAuth, isAdmin, dashboardController.usersGet);
 
