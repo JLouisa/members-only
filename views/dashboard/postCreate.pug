@@ -1,13 +1,14 @@
 extends ../layout
 
 block content
-    if errors.length > 0
-        div
-            each error in errors 
-                span= error.msg
-    h1= title
-        form(action="" method="POST")
-            label(for="postTitle") Title
-            input(type="text" name="postTitle" placeholder= oldtitle && oldtitle.text ? oldtitle.text : "Title..." value= oldtitle && oldtitle.text ? oldtitle.text: "") 
-            textarea#addpost(name="postText", cols="50", rows="10" placeholder=oldText && oldText.text ? oldText.text : "Place your text...")= oldText && oldText.text ? oldText.text: ""
+    div
+        if errors
+            div.error
+                each error in errors 
+                    span= error.msg
+        h1= title
+        form.createPostForm(action="" method="POST")
+            label(for="postTitle") Title:
+            input(type="text" name="postTitle" placeholder= oldPost && oldPost.title ? oldPost.title : "Title..." value= oldPost && oldPost.title ? oldPost.title: "") 
+            textarea#addpost(name="postText", cols="50", rows="10" placeholder=oldPost && oldPost.text ? oldPost.text : "Place your text...")= oldPost && oldPost.text ? oldPost.text: ""
             input(type="submit" value="Create Post")

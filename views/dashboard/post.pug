@@ -21,7 +21,7 @@ block content
             p.postText= post.text
     div
         div.commentArea
-            if errors.length > 0
+            if errors
                 div
                     each error in errors 
                         span= error.msg

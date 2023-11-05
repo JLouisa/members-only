@@ -19,14 +19,14 @@ router.post("/membership", isAuth, dashboardController.userMembershipPost);
 /* Get post page */
 router.get("/users", isAuth, isAdmin, dashboardController.usersGet);
 
+/* GET post create request */
+router.get("/post/create", isAuth, dashboardController.postCreateGet);
+
 /* POST post create request */
-router.get("/post/create", isAuth, dashboardController.postCreatePost);
+router.post("/post/create", isAuth, dashboardController.postCreatePost);
 
 /* POST post delete request */
 router.post("/post/delete/:id", isAuth, isAdmin, dashboardController.postToggleHidden);
-
-/* GET post create request */
-router.get("/post/create", isAuth, dashboardController.postCreateGet);
 
 /* Get post page */
 router.get("/post/:id", isAuth, dashboardController.postIDGet);

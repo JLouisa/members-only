@@ -7,7 +7,7 @@ const CommentCollection = require("../models/commentModel");
 
 exports.dashboardGet = asyncHandler(async function (req, res, next) {
   const user = req.user;
-  const posts = await PostCollection.find().populate("createdByUser").sort({ createdOnDate: 1 });
+  const posts = await PostCollection.find().populate("createdByUser").sort({ createdOnDate: -1 });
   // Render the dashboard template and pass the user information
   res.render("dashboard/dashboard", { title: "Dashboard", user: user, posts: posts });
 });
@@ -157,11 +157,12 @@ exports.postCreatePost = [
     .notEmpty()
     .withMessage("Text must not be empty")
     .trim()
-    .isLength({ min: 2, max: 200 })
-    .withMessage("Text must be between 2 and 200 characters")
+    .isLength({ min: 2, max: 500 })
+    .withMessage("Text must be between 2 and 500 characters")
     .escape(),
 
   asyncHandler(async function (req, res, next) {
+    console.log(req.body);
     const errors = validationResult(req);
 
     const newPost = new PostCollection({
@@ -176,7 +177,7 @@ exports.postCreatePost = [
         title: "Post Creation Failed",
         text: "Please review and correct the following issues before placing your post:",
         user: req.user,
-        oldComment: newPost,
+        oldPost: newPost,
         errors: errors.array(),
       });
       return;
@@ -184,7 +185,7 @@ exports.postCreatePost = [
       // No errors, save the comment
       await newPost.save();
       // Render the dashboard template and pass the user information
-      res.render("dashboard/post/" + newPost._id, {
+      res.render("dashboard/post/", {
         title: newPost.title,
         user: req.user,
         post: newPost,
