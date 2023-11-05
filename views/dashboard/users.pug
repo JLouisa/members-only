@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    h1= title
+    div.users
+        ol
+            each user in users 
+                li.user Name: #{user.firstName} #{user.lastName}
+                    br
+                    | Username: #{user.username}
+                    br
+                    | ID: #{user._id}
+                    br
+                    | E-mail: #{user.email}
+                    br
+                    | Date Joined: #{user.joinDate_formatted}
+                    br
+                    | Banned: #{user.isSuspended ? "Yes" : "No"}

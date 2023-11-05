@@ -128,6 +128,22 @@ footer {
   align-items: center;
 }
 
+.createPostDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.postDeleted {
+  color: crimson;
+}
+
+.postTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .post,
 .comment {
   border: 1px solid var(--fontColor);
@@ -169,4 +185,30 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 1em;
+}
+
+.user {
+  border: 1px solid var(--fontColor);
+  padding: 1em;
+  font-size: 1rem;
+}
+
+/* ================================ */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: var(--fontColor);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0.2em;
+}
+
+.btn:hover {
+  background-color: #0056b3;
 }

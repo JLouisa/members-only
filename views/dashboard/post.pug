@@ -5,7 +5,12 @@ block content
         span 
             a(href="/dashboard") < go back 
         span Hi, #{user.firstName}!
-    h1= post.title
+    div.postTop
+        h1= post.title
+        form(action=`/dashboard/post/delete/${post._id}` method="POST")
+            input(type="submit" value= post.isHidden ? "Undo Delete": "Delete Post")
+    if post.isHidden && user.isAdmin
+        p.postDeleted Post Deleted
     div.post 
         div.postInfo
             span 
@@ -16,9 +21,13 @@ block content
             p.postText= post.text
     div
         div.commentArea
+            if errors.length > 0
+                div
+                    each error in errors 
+                        span= error.msg
             h2 Comments
             form(action="" method="POST")
-                textarea#addComment(name="addComments", cols="50", rows="10" placeholder=oldComment && oldComment.text ? oldComment.text : "Place a comment...")= oldComment && oldComment.text ? oldCategory.text: ""
+                textarea#addComment(name="addComments", cols="50", rows="10" placeholder=oldComment && oldComment.text ? oldComment.text : "Place a comment...")= oldComment && oldComment.text ? oldComment.text: ""
                 input(type="submit" value="Comment") 
         if newComment && newComment.text 
             div.comment 

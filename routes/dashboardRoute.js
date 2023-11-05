@@ -2,6 +2,7 @@ const express = require("express");
 const dashboardController = require("../controller/dashboardController");
 const router = express.Router();
 const { isAuth } = require("../config/auth");
+const { isAdmin } = require("../config/admin");
 
 /* GET dashboard form. */
 router.get("/", isAuth, dashboardController.dashboardGet);
@@ -14,6 +15,18 @@ router.get("/membership", isAuth, dashboardController.userMembershipGet);
 
 /* POST users form. */
 router.post("/membership", isAuth, dashboardController.userMembershipPost);
+
+/* Get post page */
+router.get("/users", isAuth, isAdmin, dashboardController.usersGet);
+
+/* POST post create request */
+router.get("/post/create", isAuth, dashboardController.postCreatePost);
+
+/* POST post delete request */
+router.post("/post/delete/:id", isAuth, isAdmin, dashboardController.postToggleHidden);
+
+/* GET post create request */
+router.get("/post/create", isAuth, dashboardController.postCreateGet);
 
 /* Get post page */
 router.get("/post/:id", isAuth, dashboardController.postIDGet);

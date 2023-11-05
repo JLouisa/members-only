@@ -10,6 +10,9 @@ ul(class="menuLinks")
             a(href='/dashboard') Dashboard
         li
             a(href='/dashboard' + user.url) Profile
+        if user.isAdmin
+            li
+                a(href="/dashboard/users") Users
         li
             a(href="/log-out") Log-out
     else

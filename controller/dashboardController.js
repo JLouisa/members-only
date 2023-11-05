@@ -81,8 +81,10 @@ exports.dashboardProfileGet = asyncHandler(async function (req, res, next) {
   res.render("dashboard/profile", { title: "Profile", user: user });
 });
 
-exports.dashboardProfilePost = asyncHandler(async function (req, res, next) {
-  res.render("index", { title: "Create User Delete GET" });
+exports.usersGet = asyncHandler(async function (req, res, next) {
+  const currentUser = req.user;
+  const users = await UserCollection.find({}).exec();
+  res.render("dashboard/users", { title: "Users", user: currentUser, users: users });
 });
 
 exports.userMembershipGet = asyncHandler(async function (req, res, next) {
@@ -97,3 +99,98 @@ exports.userMembershipPost = asyncHandler(async function (req, res, next) {
   await user.save();
   res.render("dashboard/membership", { title: "Membership", user: user });
 });
+
+exports.PostDeletePost = asyncHandler(async function (req, res, next) {
+  const [updatedPost, comments] = await Promise.all([
+    await PostCollection.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { isHidden: { $not: "$isHidden" } } }, // Toggle isHidden
+      { new: true } // Return the updated document
+    )
+      .populate("createdByUser")
+      .exec(),
+    // PostCollection.findOne({ _id: req.params.id }).populate("createdByUser").exec(),
+    CommentCollection.find({ createdOnPost: req.params.id }).populate("createdByUser").exec(),
+  ]);
+  res.render("dashboard/post", { title: updatedPost.title, user: req.user, post: updatedPost, comments: comments });
+});
+
+exports.postToggleHidden = asyncHandler(async function (req, res, next) {
+  const postId = req.params.id;
+
+  // Find the post by ID
+  const [post, comments] = await Promise.all([
+    await PostCollection.findOne({ _id: postId }).populate("createdByUser").exec(),
+    CommentCollection.find({ createdOnPost: req.params.id }).populate("createdByUser").exec(),
+  ]);
+
+  if (!post) {
+    // Handle the case where the post is not found
+    return res.status(404).json({ message: "Post not found" });
+  }
+
+  // Toggle the isHidden field
+  post.isHidden = !post.isHidden;
+
+  // Save the updated post
+  await post.save();
+
+  // Render the response as needed.
+  res.render("dashboard/post", { title: post.title, user: req.user, post: post, comments: comments });
+});
+
+exports.postCreateGet = asyncHandler(async function (req, res, next) {
+  const user = req.user;
+  res.render("dashboard/postCreate", { title: "Create Post", user: user });
+});
+
+exports.postCreatePost = [
+  // Validate and sanitize the post fields.
+  body("postTitle")
+    .notEmpty()
+    .withMessage("Title must not be empty")
+    .trim()
+    .isLength({ min: 2, max: 30 })
+    .withMessage("Title must be between 2 and 30 characters")
+    .escape(),
+  body("postText")
+    .notEmpty()
+    .withMessage("Text must not be empty")
+    .trim()
+    .isLength({ min: 2, max: 200 })
+    .withMessage("Text must be between 2 and 200 characters")
+    .escape(),
+
+  asyncHandler(async function (req, res, next) {
+    const errors = validationResult(req);
+
+    const newPost = new PostCollection({
+      title: req.body.postTitle || "",
+      text: req.body.postText || "",
+      createdByUser: req.user._id || "",
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render the form again with sanitized values/error messages.
+      res.render("dashboard/postCreate", {
+        title: "Post Creation Failed",
+        text: "Please review and correct the following issues before placing your post:",
+        user: req.user,
+        oldComment: newPost,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // No errors, save the comment
+      await newPost.save();
+      // Render the dashboard template and pass the user information
+      res.render("dashboard/post/" + newPost._id, {
+        title: newPost.title,
+        user: req.user,
+        post: newPost,
+        comments: [],
+        newPost: newPost,
+      });
+    }
+  }),
+];

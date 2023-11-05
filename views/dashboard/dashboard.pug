@@ -4,8 +4,12 @@ block content
   div  
     p.greeting Hi, #{user.firstName}!
   div
-    h2 Recent Post
-      each post in posts 
+    div.createPostDiv 
+      h2 Recent Post
+      span.btn
+        a(href="/dashboard/post/create") +Create Post
+    each post in posts 
+      if !post.isHidden
         a(href="dashboard"+post.url)
           div.post 
             div.postInfo
@@ -16,4 +20,15 @@ block content
             div 
               p.postTitle= post.title
               p.postText= post.text
-
+      else if user.isAdmin
+        a(href="dashboard"+post.url)
+          div.post 
+            div.postInfo
+              span 
+                strong= user.isMember ? post.createdByUser.username : "anonymous"       
+              span.postDate 
+                em= user.isMember ? post.createdDate_formatted : ""
+            div 
+              p.postTitle #{post.title} 
+                span.postDeleted (Deleted)
+              p.postText= post.text
