@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 const session = require("express-session");
 const passport = require("passport");
+const compression = require("compression");
+const helmet = require("helmet");
 
 const indexRouter = require("./routes/indexRoute");
 const userRouter = require("./routes/userRoute");
@@ -62,7 +64,7 @@ const limiter = RateLimit({
 app.use(limiter);
 
 //! Helmet protection
-app.use(helmet);
+app.use(helmet());
 
 app.use(session({ secret: process.env.SECRECT_KEY, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
