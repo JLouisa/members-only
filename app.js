@@ -66,7 +66,13 @@ app.use(limiter);
 //! Helmet protection
 app.use(helmet());
 
-app.use(session({ secret: process.env.SECRECT_KEY, resave: true, saveUninitialized: true }));
+app.use(
+  session({
+    secret: process.env.SECRECT_KEY || process.env.SESSION_SECRET || "catss",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
