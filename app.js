@@ -45,7 +45,24 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//! Compression
+app.use(compression());
+
 app.use(express.static(path.join(__dirname, "public")));
+
+//! limit repeated requests to APIs and endpoints
+//Set up rate limiter: maximum of twenty requests per minute
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 50,
+});
+// Apply rate limiter to all requests
+app.use(limiter);
+
+//! Helmet protection
+app.use(helmet);
 
 app.use(session({ secret: process.env.SECRECT_KEY, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
